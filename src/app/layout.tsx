@@ -1,4 +1,11 @@
-import "./globals.css"
+import "@mantine/core/styles.css"
+
+import { Metadata } from "next"
+import { ColorSchemeScript, MantineProvider } from "@mantine/core"
+
+export const metadata: Metadata = {
+  title: "App",
+}
 
 export default function RootLayout({
   children,
@@ -7,7 +14,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <head>
+        <ColorSchemeScript />
+      </head>
+      <body>
+        <MantineProvider defaultColorScheme="auto">{children}</MantineProvider>
+      </body>
     </html>
   )
 }

@@ -1,1 +1,1 @@
-# Recipe app
+# Template Init
