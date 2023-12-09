@@ -1,14 +1,15 @@
-import { db } from "@/db"
-import { users } from "@/db/schema"
 import { Text } from "@mantine/core"
 
-import { auth } from "@/lib/auth"
 import { ColorSchemeToggle } from "@/components/ui/ColorSchemeToggle"
 import AuthButton from "@/components/AuthButton"
 
+import { serverClient } from "./_trpc/serverClient"
+
+export const dynamic = "force-dynamic"
+
 export default async function Home() {
-  const session = await auth()
-  const usersList = await db.select().from(users)
+  const session = await serverClient.userRouter.getSession()
+  const usersList = await serverClient.userRouter.getAllUsers()
 
   return (
     <div>
@@ -20,7 +21,7 @@ export default async function Home() {
       >
         You are logged in as {session?.user?.email ?? "nobody"}
       </Text>
-      <AuthButton session={session} />
+      <AuthButton serverSession={session} />
 
       {usersList.map((user) => (
         <Text key={user.id}>{user.email}</Text>
