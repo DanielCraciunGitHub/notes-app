@@ -3,7 +3,7 @@ import { env } from "@/env.mjs"
 import NextAuth, { DefaultSession } from "next-auth"
 import Google from "next-auth/providers/google"
 
-import { PlanetScaleAdapter } from "./drizzle-adapter"
+import { PlanetScaleAdapter } from "./PlanetScaleAdapter"
 
 declare module "next-auth" {
   interface Session extends DefaultSession {

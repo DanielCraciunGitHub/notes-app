@@ -1,4 +1,3 @@
-// lib/auth/planetScaleAdapter
 import crypto from "node:crypto"
 import { DbClient } from "@/db"
 import { accounts, sessions, users, verificationTokens } from "@/db/schema"
