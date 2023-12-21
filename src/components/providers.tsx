@@ -3,10 +3,13 @@
 import React, { useState } from "react"
 import { url } from "@/config"
 import { MantineProvider } from "@mantine/core"
+import { ModalsProvider } from "@mantine/modals"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { httpBatchLink } from "@trpc/client"
 
 import { trpc } from "@/app/_trpc/client"
+
+import { theme } from "../../theme"
 
 interface ProviderProps {
   children: React.ReactNode
@@ -27,7 +30,9 @@ export function Provider({ children }: ProviderProps) {
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <MantineProvider defaultColorScheme="auto">{children}</MantineProvider>
+        <MantineProvider defaultColorScheme="auto" theme={theme}>
+          <ModalsProvider>{children}</ModalsProvider>
+        </MantineProvider>
       </QueryClientProvider>
     </trpc.Provider>
   )

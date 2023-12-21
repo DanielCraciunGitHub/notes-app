@@ -43,9 +43,7 @@ export function Navbar() {
   return (
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
-        <Stack justify="center" gap={0}>
-          {links}
-        </Stack>
+        <Stack mt={20}>{links}</Stack>
       </div>
 
       <Stack>
