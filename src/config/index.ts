@@ -6,8 +6,8 @@ export const url =
     : "https://recipe-app-danielcraciungithub.vercel.app"
 
 export const navbarLinks = [
-  { icon: IconNote, label: "Notes" },
-  { icon: IconBell, label: "Reminders" },
-  { icon: IconArchive, label: "Archive" },
-  { icon: IconTrash, label: "Deleted" },
+  { icon: IconNote, label: "" },
+  { icon: IconBell, label: "reminders" },
+  { icon: IconArchive, label: "archived" },
+  { icon: IconTrash, label: "deleted" },
 ]

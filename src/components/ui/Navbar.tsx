@@ -2,36 +2,23 @@
 
 import { useState } from "react"
 import { navbarLinks } from "@/config"
-import { rem, Stack, Tooltip, UnstyledButton } from "@mantine/core"
-import { IconHome2, IconLogin, IconLogout } from "@tabler/icons-react"
+import { Stack } from "@mantine/core"
+import { Session } from "next-auth/types"
 
 import classes from "@/styles/Navbar.module.css"
 
-interface NavbarLinkProps {
-  icon: typeof IconHome2
-  label: string
-  active?: boolean
-  onClick?(): void
+import AuthButton from "../AuthButton"
+import NavbarAddNoteButton from "./NavbarAddNoteButton"
+import { NavbarLink } from "./NavbarLink"
+
+interface NavbarProps {
+  session: Session | null
 }
 
-function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
-  return (
-    <Tooltip label={label} position="right">
-      <UnstyledButton
-        onClick={onClick}
-        className={classes.link}
-        data-active={active || undefined}
-      >
-        <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
-      </UnstyledButton>
-    </Tooltip>
-  )
-}
-
-export function Navbar() {
+export function Navbar({ session }: NavbarProps) {
   const [active, setActive] = useState(0)
 
-  const links = navbarLinks.map((link, index) => (
+  const mainNavbarLinks = navbarLinks.map((link, index) => (
     <NavbarLink
       {...link}
       key={link.label}
@@ -43,13 +30,13 @@ export function Navbar() {
   return (
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
-        <Stack mt={20}>{links}</Stack>
+        <Stack mt={10}>
+          <NavbarAddNoteButton session={session} />
+          {mainNavbarLinks}
+        </Stack>
       </div>
 
-      <Stack>
-        <NavbarLink icon={IconLogin} label="Login" />
-        <NavbarLink icon={IconLogout} label="Logout" />
-      </Stack>
+      <AuthButton session={session} />
     </nav>
   )
 }

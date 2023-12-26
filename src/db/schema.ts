@@ -1,6 +1,8 @@
 // db/schema/auth.ts
+import { randomUUID } from "crypto"
 import type { AdapterAccount } from "@auth/core/adapters"
 import {
+  boolean,
   int,
   mysqlTable,
   primaryKey,
@@ -57,3 +59,18 @@ export const verificationTokens = mysqlTable(
     compoundKey: primaryKey(vt.identifier, vt.token),
   })
 )
+////////////////////////////////////////////////////////////////////////////////
+export const notes = mysqlTable("notes", {
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => randomUUID()),
+  userId: varchar("userId", { length: 255 }).notNull(),
+
+  body: text("body"),
+  createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
+  updatedAt: timestamp("updatedAt", { mode: "date" }).onUpdateNow(),
+  deleted: boolean("deleted").default(false),
+  archived: boolean("archived").default(false),
+  reminder: timestamp("reminder", { mode: "date" }),
+})

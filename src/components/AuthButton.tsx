@@ -1,24 +1,19 @@
 "use client"
 
-import { Button } from "@mantine/core"
-import { signIn, signOut } from "next-auth/react"
+import { IconLogin, IconLogout } from "@tabler/icons-react"
 import { Session } from "next-auth/types"
 
-import { trpc } from "@/app/_trpc/client"
+import { LoginButton } from "./LoginButton"
+import { SignOutButton } from "./SignOutButton"
 
 interface AuthSession {
-  serverSession: Session | null
+  session: Session | null
 }
 
-export default function AuthButton({ serverSession }: AuthSession) {
-  const { data: session } = trpc.userRouter.getSession.useQuery(undefined, {
-    initialData: serverSession,
-    // refetchOnMount: false,
-  })
-
-  return session?.user ? (
-    <Button onClick={() => signOut()}>Sign Out</Button>
+export default function AuthButton({ session }: AuthSession) {
+  return session ? (
+    <SignOutButton icon={IconLogout} />
   ) : (
-    <Button onClick={() => signIn("google")}>Sign In</Button>
+    <LoginButton icon={IconLogin} />
   )
 }
