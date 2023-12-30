@@ -67,10 +67,10 @@ export const notes = mysqlTable("notes", {
     .$defaultFn(() => randomUUID()),
   userId: varchar("userId", { length: 255 }).notNull(),
 
-  body: text("body"),
+  body: text("body").default("").notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
   updatedAt: timestamp("updatedAt", { mode: "date" }).onUpdateNow(),
-  deleted: boolean("deleted").default(false),
-  archived: boolean("archived").default(false),
+  deleted: boolean("deleted").default(false).notNull(),
+  archived: boolean("archived").default(false).notNull(),
   reminder: timestamp("reminder", { mode: "date" }),
 })

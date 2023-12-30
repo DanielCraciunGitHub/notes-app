@@ -1,29 +1,26 @@
 "use client"
 
-import { Note } from "@/types"
-import { Card, Checkbox, Group, Modal, Stack, Textarea } from "@mantine/core"
+import { Button, Checkbox, Group, Modal, Stack, Textarea } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useDisclosure } from "@mantine/hooks"
-import { IconArchive, IconBell, IconTrash } from "@tabler/icons-react"
+import { IconArchive, IconBell, IconPlus } from "@tabler/icons-react"
 
+import { useNotes } from "@/hooks/useNotes"
+import classes from "@/styles/Navbar.module.css"
 import { trpc } from "@/app/_trpc/client"
 
-interface NoteModalProps {
-  note: Note
-  refreshNotes: () => any
-}
-
-export function NoteModal({ note, refreshNotes }: NoteModalProps) {
+const NavbarAddNoteButton = () => {
   const [opened, { open, close }] = useDisclosure(false)
+
+  const { refreshNotes } = useNotes()
 
   const { mutateAsync } = trpc.notesRouter.updateNote.useMutation({})
 
   const form = useForm({
     initialValues: {
-      body: note.body,
-      reminder: note.reminder,
-      archived: note.archived,
-      deleted: note.deleted,
+      body: "",
+      reminder: false,
+      archived: false,
     },
   })
 
@@ -33,27 +30,25 @@ export function NoteModal({ note, refreshNotes }: NoteModalProps) {
         opened={opened}
         centered
         onClose={async () => {
-          const { archived, body, reminder, deleted } = form.values
+          const { archived, body, reminder } = form.values
 
-          if (
-            body !== note.body ||
-            archived === !note.archived ||
-            deleted === !note.deleted
-          ) {
+          if (body !== "") {
             close()
             await mutateAsync({
-              id: note.id,
+              id: undefined,
               body,
               archived,
               reminder: null,
-              deleted,
+              deleted: false,
             })
             refreshNotes()
-          } else {
-            close()
           }
+
+          close()
+
+          form.reset()
         }}
-        title="Edit Note 📝"
+        title="New Note 📝"
         withCloseButton={false}
       >
         <Stack>
@@ -73,17 +68,14 @@ export function NoteModal({ note, refreshNotes }: NoteModalProps) {
               icon={IconArchive}
               label="Archive"
             />
-
-            <Checkbox
-              {...form.getInputProps("deleted", { type: "checkbox" })}
-              icon={IconTrash}
-              label="Delete"
-            />
           </Group>
         </Stack>
       </Modal>
 
-      <Card onClick={open}>{note.body}</Card>
+      <Button variant="subtle" onClick={open} className={classes.link}>
+        <IconPlus style={{ width: "20px", height: "20px" }} stroke={1.5} />
+      </Button>
     </>
   )
 }
+export default NavbarAddNoteButton

@@ -6,6 +6,7 @@ import { MantineProvider } from "@mantine/core"
 import { ModalsProvider } from "@mantine/modals"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { httpBatchLink } from "@trpc/client"
+import SuperJSON from "superjson"
 
 import { trpc } from "@/app/_trpc/client"
 
@@ -20,6 +21,7 @@ export function Provider({ children }: ProviderProps) {
 
   const [trpcClient] = useState(() =>
     trpc.createClient({
+      transformer: SuperJSON,
       links: [
         httpBatchLink({
           url: `${url}/api/trpc`,

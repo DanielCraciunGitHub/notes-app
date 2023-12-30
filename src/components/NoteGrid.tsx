@@ -1,20 +1,20 @@
-import { Notes } from "@/types"
+"use client"
+
+import { useEffect } from "react"
 import { Container, SimpleGrid } from "@mantine/core"
+
+import { useNotes } from "@/hooks/useNotes"
 
 import { NoteModal } from "./NoteModal"
 
-interface NoteGridProps {
-  notes: Notes
-}
+const NoteGrid = () => {
+  const { newNotes, refreshNotes } = useNotes()
 
-const NoteGrid = ({ notes }: NoteGridProps) => {
   return (
     <Container>
       <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }}>
-        {notes.map((note) => (
-          <NoteModal key={note.id} note={note}>
-            {note.body}
-          </NoteModal>
+        {newNotes?.map((note) => (
+          <NoteModal key={note.id} note={note} refreshNotes={refreshNotes} />
         ))}
       </SimpleGrid>
     </Container>

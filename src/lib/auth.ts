@@ -16,6 +16,8 @@ declare module "next-auth" {
 export const {
   handlers: { GET, POST },
   auth,
+  signIn,
+  signOut,
 } = NextAuth({
   adapter: PlanetScaleAdapter(db),
   providers: [Google],

@@ -3,4 +3,4 @@ import { InferSelectModel } from "drizzle-orm"
 
 export type Note = InferSelectModel<typeof notes>
 
-export type Notes = Note[]
+export type Notes = Note[] | null | undefined

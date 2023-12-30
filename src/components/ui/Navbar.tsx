@@ -8,7 +8,7 @@ import { Session } from "next-auth/types"
 import classes from "@/styles/Navbar.module.css"
 
 import AuthButton from "../AuthButton"
-import NavbarAddNoteButton from "./NavbarAddNoteButton"
+import AddNoteModal from "./AddNoteModal"
 import { NavbarLink } from "./NavbarLink"
 
 interface NavbarProps {
@@ -31,7 +31,7 @@ export function Navbar({ session }: NavbarProps) {
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
         <Stack mt={10}>
-          <NavbarAddNoteButton session={session} />
+          <AddNoteModal />
           {mainNavbarLinks}
         </Stack>
       </div>

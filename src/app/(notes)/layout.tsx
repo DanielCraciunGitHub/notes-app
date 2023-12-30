@@ -3,11 +3,9 @@ import "@mantine/core/styles.css"
 import { Metadata } from "next"
 import { Box, Divider, Flex, Stack, Text, Title } from "@mantine/core"
 
+import { auth } from "@/lib/auth"
 import { ColorSchemeToggle } from "@/components/ui/ColorSchemeToggle"
 import { Navbar } from "@/components/ui/Navbar"
-import NoteGrid from "@/components/NoteGrid"
-
-import { serverClient } from "../_trpc/serverClient"
 
 export const dynamic = "force-dynamic"
 
@@ -20,7 +18,7 @@ export default async function layout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await serverClient.userRouter.getSession()
+  const session = await auth()
 
   return (
     <Flex>

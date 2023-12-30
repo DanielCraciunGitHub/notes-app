@@ -1,11 +1,7 @@
-import { url } from "@/config"
 import { appRouter } from "@/server"
-import { httpBatchLink } from "@trpc/client"
+import { createContext } from "@/server/context"
+import { createCallerFactory } from "@/server/trpc"
 
-export const serverClient = appRouter.createCaller({
-  links: [
-    httpBatchLink({
-      url: `${url}/api/trpc`,
-    }),
-  ],
-})
+const createCaller = createCallerFactory(appRouter)
+
+export const serverClient = createCaller(await createContext())
