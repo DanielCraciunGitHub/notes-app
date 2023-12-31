@@ -5,5 +5,5 @@ export default async function page() {
 
   // const deletedNotes = notes?.filter((note) => note.deleted === true)
 
-  return <NoteGrid />
+  return <NoteGrid noteType="deleted" />
 }

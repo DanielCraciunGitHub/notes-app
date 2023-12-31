@@ -5,5 +5,5 @@ export default async function page() {
 
   // const archivedNotes = notes?.filter((note) => note.archived === true)
 
-  return <NoteGrid />
+  return <NoteGrid noteType="archived" />
 }

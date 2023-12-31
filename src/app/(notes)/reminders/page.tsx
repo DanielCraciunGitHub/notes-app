@@ -5,5 +5,5 @@ export default async function page() {
 
   // const reminders = notes?.filter((note) => note.reminder !== null)
 
-  return <NoteGrid />
+  return <NoteGrid noteType="reminders" />
 }

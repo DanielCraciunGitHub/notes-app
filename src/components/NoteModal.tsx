@@ -1,20 +1,32 @@
 "use client"
 
 import { Note } from "@/types"
-import { Card, Checkbox, Group, Modal, Stack, Textarea } from "@mantine/core"
+import {
+  Box,
+  Card,
+  Checkbox,
+  Divider,
+  Group,
+  Modal,
+  Stack,
+  Text,
+  Textarea,
+} from "@mantine/core"
+import { DateTimePicker } from "@mantine/dates"
 import { useForm } from "@mantine/form"
 import { useDisclosure } from "@mantine/hooks"
 import { IconArchive, IconBell, IconTrash } from "@tabler/icons-react"
 
+import { useNotes } from "@/hooks/useNotes"
 import { trpc } from "@/app/_trpc/client"
 
 interface NoteModalProps {
   note: Note
-  refreshNotes: () => any
 }
 
-export function NoteModal({ note, refreshNotes }: NoteModalProps) {
+export function NoteModal({ note }: NoteModalProps) {
   const [opened, { open, close }] = useDisclosure(false)
+  const { refreshNotes } = useNotes()
 
   const { mutateAsync } = trpc.notesRouter.updateNote.useMutation({})
 
@@ -38,14 +50,15 @@ export function NoteModal({ note, refreshNotes }: NoteModalProps) {
           if (
             body !== note.body ||
             archived === !note.archived ||
-            deleted === !note.deleted
+            deleted === !note.deleted ||
+            reminder !== note.reminder
           ) {
             close()
             await mutateAsync({
               id: note.id,
               body,
               archived,
-              reminder: null,
+              reminder,
               deleted,
             })
             refreshNotes()
@@ -63,10 +76,16 @@ export function NoteModal({ note, refreshNotes }: NoteModalProps) {
             {...form.getInputProps("body", { type: "input" })}
           />
           <Group>
-            <Checkbox
-              {...form.getInputProps("reminder", { type: "checkbox" })}
-              icon={IconBell}
-              label="Reminder"
+            <DateTimePicker
+              {...form.getInputProps("reminder", { type: "input" })}
+              leftSection={<IconBell />}
+              label={<Text size="sm">Reminder</Text>}
+              w={"100%"}
+              valueFormat="ddd MMM DD YYYY hh:mm"
+              dropdownType="modal"
+              minDate={new Date()}
+              clearable
+              variant="filled"
             />
             <Checkbox
               {...form.getInputProps("archived", { type: "checkbox" })}
@@ -83,7 +102,40 @@ export function NoteModal({ note, refreshNotes }: NoteModalProps) {
         </Stack>
       </Modal>
 
-      <Card onClick={open}>{note.body}</Card>
+      <Card onClick={open} draggable>
+        {note.reminder ? (
+          <Group mb={20}>
+            <IconBell color="red" />
+            <Text>
+              {note.reminder.toDateString() +
+                " " +
+                note.reminder
+                  .toLocaleTimeString()
+                  .split(":")
+                  .slice(0, 2)
+                  .join(":")}
+            </Text>
+          </Group>
+        ) : null}
+        <Box>{note.body}</Box>
+        <Divider mb={10} />
+
+        <Text size="xs" c={"green"}>
+          Created:{" "}
+          {note.createdAt?.toDateString() +
+            " " +
+            note.createdAt?.toLocaleTimeString()}
+        </Text>
+        <Text size="xs" c={"cyan"}>
+          {note.updatedAt
+            ? `Updated: ${
+                note.updatedAt.toDateString() +
+                " " +
+                note.updatedAt.toLocaleTimeString()
+              }`
+            : null}
+        </Text>
+      </Card>
     </>
   )
 }

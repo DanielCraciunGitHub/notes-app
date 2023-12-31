@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useSelectedLayoutSegment } from "next/navigation"
 import { navbarLinks } from "@/config"
 import { Stack } from "@mantine/core"
 import { Session } from "next-auth/types"
@@ -16,14 +16,13 @@ interface NavbarProps {
 }
 
 export function Navbar({ session }: NavbarProps) {
-  const [active, setActive] = useState(0)
+  const segment = useSelectedLayoutSegment()
 
   const mainNavbarLinks = navbarLinks.map((link, index) => (
     <NavbarLink
       {...link}
       key={link.label}
-      active={index === active}
-      onClick={() => setActive(index)}
+      active={link.label === (segment ?? "")}
     />
   ))
 

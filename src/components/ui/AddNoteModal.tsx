@@ -1,6 +1,15 @@
 "use client"
 
-import { Button, Checkbox, Group, Modal, Stack, Textarea } from "@mantine/core"
+import {
+  Button,
+  Checkbox,
+  Group,
+  Modal,
+  Stack,
+  Text,
+  Textarea,
+} from "@mantine/core"
+import { DateTimePicker } from "@mantine/dates"
 import { useForm } from "@mantine/form"
 import { useDisclosure } from "@mantine/hooks"
 import { IconArchive, IconBell, IconPlus } from "@tabler/icons-react"
@@ -19,7 +28,7 @@ const NavbarAddNoteButton = () => {
   const form = useForm({
     initialValues: {
       body: "",
-      reminder: false,
+      reminder: null,
       archived: false,
     },
   })
@@ -38,7 +47,7 @@ const NavbarAddNoteButton = () => {
               id: undefined,
               body,
               archived,
-              reminder: null,
+              reminder,
               deleted: false,
             })
             refreshNotes()
@@ -57,12 +66,18 @@ const NavbarAddNoteButton = () => {
             autosize
             {...form.getInputProps("body", { type: "input" })}
           />
+          <DateTimePicker
+            {...form.getInputProps("reminder", { type: "input" })}
+            leftSection={<IconBell />}
+            label={<Text size="sm">Reminder</Text>}
+            w={"100%"}
+            valueFormat="ddd MMM DD YYYY hh:mm"
+            dropdownType="modal"
+            minDate={new Date()}
+            clearable
+            variant="filled"
+          />
           <Group>
-            <Checkbox
-              {...form.getInputProps("reminder", { type: "checkbox" })}
-              icon={IconBell}
-              label="Reminder"
-            />
             <Checkbox
               {...form.getInputProps("archived", { type: "checkbox" })}
               icon={IconArchive}
