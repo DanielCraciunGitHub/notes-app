@@ -9,5 +9,8 @@ export const env = createEnv({
     AUTH_GOOGLE_SECRET: z.string().min(1),
 
     PLANET_SCALE_DATABASE_URL: z.string().min(1),
+
+    NODEMAILER_EMAIL: z.string(),
+    NODEMAILER_PASSWORD: z.string(),
   },
 })

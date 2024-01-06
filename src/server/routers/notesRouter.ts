@@ -1,6 +1,6 @@
 import { db } from "@/db"
 import { notes } from "@/db/schema"
-import { and, eq } from "drizzle-orm"
+import { eq } from "drizzle-orm"
 
 import { noteSchema } from "@/lib/validations"
 

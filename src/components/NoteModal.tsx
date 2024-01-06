@@ -105,7 +105,9 @@ export function NoteModal({ note }: NoteModalProps) {
       <Card onClick={open} draggable>
         {note.reminder ? (
           <Group mb={20}>
-            <IconBell color="red" />
+            <IconBell
+              color={note.reminder.getTime() < Date.now() ? "red" : "cyan"}
+            />
             <Text>
               {note.reminder.toDateString() +
                 " " +
