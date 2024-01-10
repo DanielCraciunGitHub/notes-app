@@ -4,8 +4,8 @@ import { Metadata } from "next"
 import { Box, Divider, Flex, Stack, Text, Title } from "@mantine/core"
 
 import { auth } from "@/lib/auth"
-import { ColorSchemeToggle } from "@/components/ui/ColorSchemeToggle"
-import { Navbar } from "@/components/ui/Navbar"
+import { ColorSchemeToggle } from "@/components/ColorSchemeToggle"
+import { Navbar } from "@/components/Navbar"
 
 export const dynamic = "force-dynamic"
 

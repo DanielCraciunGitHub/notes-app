@@ -28,7 +28,7 @@ export function NoteModal({ note }: NoteModalProps) {
   const [opened, { open, close }] = useDisclosure(false)
   const { refreshNotes } = useNotes()
 
-  const { mutateAsync } = trpc.notesRouter.updateNote.useMutation({})
+  const { mutateAsync: updateNote } = trpc.notesRouter.updateNote.useMutation()
 
   const form = useForm({
     initialValues: {
@@ -54,11 +54,11 @@ export function NoteModal({ note }: NoteModalProps) {
             reminder !== note.reminder
           ) {
             close()
-            await mutateAsync({
+            await updateNote({
               id: note.id,
               body,
-              archived,
-              reminder,
+              archived: deleted ? false : archived,
+              reminder: deleted ? null : reminder,
               deleted,
             })
             refreshNotes()
@@ -67,7 +67,6 @@ export function NoteModal({ note }: NoteModalProps) {
           }
         }}
         title="Edit Note 📝"
-        withCloseButton={false}
       >
         <Stack>
           <Textarea

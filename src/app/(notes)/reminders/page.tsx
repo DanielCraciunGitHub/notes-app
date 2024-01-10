@@ -1,4 +1,4 @@
-import NoteGrid from "@/components/NoteGrid"
+import NoteGrid from "@/app/(notes)/NoteGrid"
 
 export default async function page() {
   // const notes = await serverClient.notesRouter.getNotes()

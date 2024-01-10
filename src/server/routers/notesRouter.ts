@@ -1,6 +1,7 @@
 import { db } from "@/db"
 import { notes } from "@/db/schema"
 import { eq } from "drizzle-orm"
+import { z } from "zod"
 
 import { noteSchema } from "@/lib/validations"
 
@@ -32,5 +33,10 @@ export const notesRouter = router({
             .values({ body, archived, reminder, userId: ctx.session.user.id })
         }
       }
+    }),
+  deleteNote: publicProcedure
+    .input(z.object({ noteId: z.string() }))
+    .mutation(async ({ input }) => {
+      await db.delete(notes).where(eq(notes.id, input.noteId))
     }),
 })

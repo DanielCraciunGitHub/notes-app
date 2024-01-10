@@ -7,8 +7,8 @@ import { Session } from "next-auth/types"
 
 import classes from "@/styles/Navbar.module.css"
 
-import AuthButton from "../AuthButton"
-import AddNoteModal from "./AddNoteModal"
+import AuthButton from "./AuthButton"
+import AddNoteModal from "./modals/AddNoteModal"
 import { NavbarLink } from "./NavbarLink"
 
 interface NavbarProps {

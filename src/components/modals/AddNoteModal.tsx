@@ -1,14 +1,6 @@
 "use client"
 
-import {
-  Button,
-  Checkbox,
-  Group,
-  Modal,
-  Stack,
-  Text,
-  Textarea,
-} from "@mantine/core"
+import { Button, Checkbox, Modal, Stack, Text, Textarea } from "@mantine/core"
 import { DateTimePicker } from "@mantine/dates"
 import { useForm } from "@mantine/form"
 import { useDisclosure } from "@mantine/hooks"
@@ -23,7 +15,7 @@ const NavbarAddNoteButton = () => {
 
   const { refreshNotes } = useNotes()
 
-  const { mutateAsync } = trpc.notesRouter.updateNote.useMutation({})
+  const { mutateAsync: updateNote } = trpc.notesRouter.updateNote.useMutation()
 
   const form = useForm({
     initialValues: {
@@ -43,7 +35,7 @@ const NavbarAddNoteButton = () => {
 
           if (body !== "") {
             close()
-            await mutateAsync({
+            await updateNote({
               id: undefined,
               body,
               archived,
@@ -77,13 +69,11 @@ const NavbarAddNoteButton = () => {
             clearable
             variant="filled"
           />
-          <Group>
-            <Checkbox
-              {...form.getInputProps("archived", { type: "checkbox" })}
-              icon={IconArchive}
-              label="Archive"
-            />
-          </Group>
+          <Checkbox
+            {...form.getInputProps("archived", { type: "checkbox" })}
+            icon={IconArchive}
+            label="Archive"
+          />
         </Stack>
       </Modal>
 
